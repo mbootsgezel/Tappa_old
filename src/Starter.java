@@ -5,7 +5,6 @@ public class Starter {
 		
 		new LocalAddress();
 		
-		
 		ThreadHandler th = ThreadHandler.getInstance();
 		
 	}

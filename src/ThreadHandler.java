@@ -9,7 +9,7 @@ public class ThreadHandler implements Runnable{
 
 	@Override
 	public void run() {
-		new Thread(new Client("172.19.82.155", 25000)).start();
+		new Thread(new Client("172.16.17.122", 25000)).start();
 		//new Thread(new Server(25000)).start();
 	}
 	
