@@ -1,3 +1,5 @@
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,6 +13,8 @@ public class Server implements Runnable{
 	private int port;
 	private boolean running;
 	private Scanner scanner;
+	private DataInputStream is = null;
+	private DataOutputStream os = null;
 
 	public Server(int port) {
 		this.port = port;
@@ -23,19 +27,31 @@ public class Server implements Runnable{
 
 	@Override
 	public void run() {
-
+	
 		running = true;
 		try {
-			while (running) {
+			serversocket = new ServerSocket(port);
+			System.out.println("Server waiting for Clients on port: " + port+ ".");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try{
+			socket = serversocket.accept();
+			System.out.println("succ2");
+//			scanner = new Scanner(System.in);
+
+			is = new DataInputStream(socket.getInputStream());
+			os = new DataOutputStream(socket.getOutputStream());
+			
+			while (running) {	
+				System.out.println("derp");
+				System.out.println(is.readLine());
 				
-				System.out.println("Server waiting for Clients on port: " + port+ ".");
-				serversocket = new ServerSocket(port);
-				socket = serversocket.accept();
-				scanner = new Scanner(System.in);
-				
-				if(scanner.next().equals("stop")){
-					this.stop();
-				}
+//				if(scanner.next().equals("stop")){
+//					this.stop();
+//				}
 				
 				if(!running){
 					break;
@@ -48,8 +64,7 @@ public class Server implements Runnable{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
-		} catch (Exception e) {
+		}catch(IOException e){
 			e.printStackTrace();
 		}
 
