@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 
 
 public class Server implements Runnable{
@@ -9,6 +10,7 @@ public class Server implements Runnable{
 	private Socket socket;
 	private int port;
 	private boolean running;
+	private Scanner scanner;
 
 	public Server(int port) {
 		this.port = port;
@@ -21,6 +23,7 @@ public class Server implements Runnable{
 
 	@Override
 	public void run() {
+
 		running = true;
 		try {
 			while (running) {
@@ -28,8 +31,12 @@ public class Server implements Runnable{
 				System.out.println("Server waiting for Clients on port: " + port+ ".");
 				serversocket = new ServerSocket(port);
 				socket = serversocket.accept();
+				scanner = new Scanner(System.in);
 				
-
+				if(scanner.next().equals("stop")){
+					this.stop();
+				}
+				
 				if(!running){
 					break;
 				}
