@@ -28,7 +28,7 @@ public class Server implements Runnable{
 		try {
 			while (running) {
 				
-				System.out.println("Server waiting for Clients on port: " + port+ ".");
+				System.out.println("Server - Server waiting for Clients on port: " + port+ ".");
 				serversocket = new ServerSocket(port);
 				socket = serversocket.accept();
 				scanner = new Scanner(System.in);
@@ -44,7 +44,7 @@ public class Server implements Runnable{
 			
 			try {
 				serversocket.close();
-				System.out.println("Server closed");
+				System.out.println("Server - Server closed");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -57,7 +57,7 @@ public class Server implements Runnable{
 	
 	public void stop(){
 		running = false;
-		System.out.println("stoppign");
+		System.out.println("Server - Stopping");
 	}
 
 }

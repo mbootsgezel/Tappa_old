@@ -15,7 +15,7 @@ public class Client implements Runnable{
 	public Client(String host, int port) {
 		this.host = host;
 		this.port = port;
-		System.out.println("New client created");
+		System.out.println("Client - New client created");
 	}
 
 	public void start(){
@@ -24,18 +24,18 @@ public class Client implements Runnable{
 	
 	@Override
 	public void run() {
-		System.out.println("Client running");
+		System.out.println("Client - Client running");
 		try {
-			System.out.println("Connecting to " + host + ":" + port);
+			System.out.println("Client - Connecting to " + host + ":" + port);
 			
 			socket = new Socket(host, port);
 			os = new DataOutputStream(socket.getOutputStream());
 			is = new DataInputStream(socket.getInputStream());
 			
-			System.out.println("Connection accepted " + socket.getInetAddress() + ":" + socket.getPort());
+			System.out.println("Client - Connection accepted " + socket.getInetAddress() + ":" + socket.getPort());
 			
 		} catch (IOException e) {
-			System.err.println("Cant connect to the server: " + e.getMessage());
+			System.err.println("Client - Cant connect to the server: " + e.getMessage());
 			//e.printStackTrace();
 		}
 		
