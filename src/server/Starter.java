@@ -8,9 +8,9 @@ public class Starter {
 		
 		ThreadHandler th = ThreadHandler.getInstance();
 		
-		//th.newWindow();
+		th.newWindow();
 		th.newServer();
-		//th.newClient("buzzgaming.nl", 1500);
+		th.newClient("buzzgaming.nl", 1500);
 		
 	}
 

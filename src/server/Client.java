@@ -48,15 +48,15 @@ public class Client implements Runnable{
 			running = true;
 			
 			while(running){
-//				message = is.readLine();
-//				System.out.println("Client - input received");
+				//message = is.readLine();
+				//System.out.println("Client - input received");
 
-//				os.writeBytes(message + '\n');
-//				System.out.println("Client - message was sent to server");
+				//os.writeBytes(message + '\n');
+				//System.out.println("Client - message was sent to server");
 				
 				response = br.readLine();
 				System.out.println("Client - received response from server: " + response);
-				//ScorePanel.getInstance().updateScore(1, 10);
+				ScorePanel.getInstance().updateScore(1, 10);
 			}
 
 
@@ -74,7 +74,7 @@ public class Client implements Runnable{
 				os.writeBytes(message);
 				
 				//response = br.readLine();
-				ScorePanel.getInstance().updateScore(1, 10);
+				//ScorePanel.getInstance().updateScore(1, 10);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
