@@ -10,8 +10,8 @@ public class Starter {
 	
 	public static void main(String[] args) {
 		new Thread(new Server(1500)).start();
-		//new Thread(new Client("172.19.86.183", 1500)).start();
-		//new Thread(new Window()).start();
+		//new Thread(Client.newInstance("172.19.86.183", 1500)).start();
+		new Thread(new Window()).start();
 
 	}
 

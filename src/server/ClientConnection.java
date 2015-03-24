@@ -1,4 +1,6 @@
 package server;
+import game.ScorePanel;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -45,7 +47,8 @@ public class ClientConnection extends Thread {
 		try {
 			while(running){
 				Click o = (Click) in.readObject();
-				display(o.toString());
+				display(o.toString() + " by client: " + id);
+				ScorePanel.getInstance().updateScore(1, 1);
 				//sendClick(o);
 			}
 		} catch (Exception e){
