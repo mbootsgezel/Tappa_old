@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class Client implements Runnable{
 	
-	
+	private static Client instance;
 	private Socket socket;
 	private int id;
 	private int port;
@@ -24,7 +24,7 @@ public class Client implements Runnable{
 	
 	private CurrentDate d = new CurrentDate();
 	
-	public Client(String host, int port) {
+	private Client(String host, int port) {
 		this.host = host;
 		this.port = port;
 	}
@@ -77,5 +77,16 @@ public class Client implements Runnable{
 	public void display(String s){
 		System.out.println(d.now() + " - Client - " + s);
 	}
-
+	
+	public static Client newInstance(String host, int port){
+		if(instance == null){
+			instance = new Client(host, port);
+		}
+		return instance;
+	}
+	
+	public static Client getInstance(){
+		return instance;
+	}
+	
 }

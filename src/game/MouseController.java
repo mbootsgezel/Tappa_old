@@ -3,13 +3,18 @@ package game;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import server.Click;
 import server.Client;
+import server.CurrentDate;
 
 
 public class MouseController implements MouseListener{
 	
+	private CurrentDate d;
+	
 	public MouseController() {
 		
+		this.d = new CurrentDate();
 	}
 	
 	
@@ -21,7 +26,8 @@ public class MouseController implements MouseListener{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		System.out.println("Mouse clicked @ X" + e.getX() + " & Y" + e.getY());
+		display("Mouse clicked @ X" + e.getX() + " & Y" + e.getY());
+		Client.getInstance().sendClick(new Click(e.getX(),e.getY()));
 		//Client.getInstance().splash(e.getX(), e.getY());
 		//ScorePanel.getInstance().updateScore(1, 10);
 		//Client.getInstance().sendClick(e.getX(), e.getY());
@@ -45,6 +51,8 @@ public class MouseController implements MouseListener{
 		
 	}
 	
-	
+	public void display(String s){
+		System.out.println(d.now() + " - Game - " + s);
+	}
 
 }
