@@ -21,6 +21,7 @@ public class Client implements Runnable{
 	private String response;
 	private boolean running;
 	
+	
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	
@@ -43,6 +44,8 @@ public class Client implements Runnable{
 
 			running = true;
 			
+			setUser(System.getProperty("user.name"));
+			
 			//sendClick(new Click(250, 500));
 			//sendClick(new Click(223, 525));
 			
@@ -62,6 +65,15 @@ public class Client implements Runnable{
 	public void splash(Click o){
 		display("Click received from server " + o.toString());
 		ScorePanel.getInstance().updateScore(1, 1);
+	}
+	
+	public void setUser(String name){
+		try {
+			out.writeObject(name);
+			
+		} catch (Exception e) {
+			
+		}
 	}
 	
 	public boolean sendClick(Click o){
