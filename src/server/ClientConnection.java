@@ -22,7 +22,7 @@ public class ClientConnection extends Thread {
 		this.socket = socket;
 		this.id = id;
 		try {
-			display("Connection from: " + socket.getInetAddress().getHostName() + ", ID = " + id);
+			display("Connection from: " + socket.getInetAddress().getHostAddress() + ", ID = " + id);
 		} catch (Exception e) {
 			display("Connected from unknown host.");
 		}

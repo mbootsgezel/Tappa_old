@@ -35,20 +35,15 @@ public class Client implements Runnable{
 	@Override
 	public void run() {
 		try {
-			display(System.getProperty("user.name"));
 			display("Connecting to: " + host);
-			
 			socket = new Socket(host, port);
-
+			
 			out = new ObjectOutputStream(socket.getOutputStream());
 	        in = new ObjectInputStream(socket.getInputStream());
 
 			running = true;
 			
 			setUser(System.getProperty("user.name"));
-			
-			//sendClick(new Click(250, 500));
-			//sendClick(new Click(223, 525));
 			
 			while(running){
 				
@@ -62,7 +57,6 @@ public class Client implements Runnable{
 			
 			}
 
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -72,6 +66,11 @@ public class Client implements Runnable{
 	public void splash(Click o){
 		//display("Click received from server " + o.toString());
 		ScorePanel.getInstance().updateScore(1, 1);
+		/*
+		 * TODO
+		 * Draw splash on screen with random ±10x ±10y
+		 * 
+		 */
 	}
 	
 	public void setUser(String name){

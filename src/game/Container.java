@@ -12,11 +12,11 @@ public class Container extends JPanel{
 	private Monster monster;
 	
 	private Container() {
-		new Thread(monster = Monster.getInstance()).start();
+		//new Thread(monster = Monster.getInstance()).start();
 		this.setLayout(new BorderLayout());
-		this.setSize(400, 300);
+		this.setSize(Window.WIDTH, Window.HEIGHT);
 		this.add(ScorePanel.getInstance(), BorderLayout.NORTH);	
-		this.add(Monster.getInstance(), BorderLayout.CENTER);
+		//this.add(Monster.getInstance(), BorderLayout.CENTER);
 		this.setVisible(true);
 	}
 	

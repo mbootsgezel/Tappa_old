@@ -9,9 +9,9 @@ import java.net.Socket;
 public class Starter {
 	
 	public static void main(String[] args) {
-		//new Thread(Server.newInstance(1500)).start();
+		new Thread(Server.newInstance(1500)).start();
 		new Thread(Client.newInstance("buzzgaming.nl", 1500)).start();
-		new Thread(new Window()).start();
+		new Thread(new Window(800, 600)).start();
 
 	}
 
