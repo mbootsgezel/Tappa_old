@@ -41,8 +41,8 @@ public class Client implements Runnable{
 
 			running = true;
 			
-			sendClick(new Click(250, 500));
-			sendClick(new Click(223, 525));
+			//sendClick(new Click(250, 500));
+			//sendClick(new Click(223, 525));
 			
 			while(running){
 				display("Waiting for incoming clicks from server..");
