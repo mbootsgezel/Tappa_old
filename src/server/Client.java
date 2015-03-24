@@ -51,8 +51,13 @@ public class Client implements Runnable{
 			
 			while(running){
 				display("Waiting for incoming clicks from server..");
-				Click o = (Click) in.readObject();
-				splash(o);
+				Object o = in.readObject();
+				try {
+					splash((Click)o);
+				} catch (Exception e) {
+					setScore((int)o);
+				}
+				
 			}
 
 
@@ -74,6 +79,10 @@ public class Client implements Runnable{
 		} catch (Exception e) {
 			
 		}
+	}
+	
+	public void setScore(int score){
+		ScorePanel.getInstance().setScore(score);
 	}
 	
 	public boolean sendClick(Click o){
