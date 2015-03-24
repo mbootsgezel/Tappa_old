@@ -7,9 +7,9 @@ import java.util.Date;
 public class CurrentDate {
 	
 	private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-	private Date now = new Date();
 	
 	public String now(){
+		Date now = new Date();
 		return sdf.format(now);
 	}
 
