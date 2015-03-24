@@ -1,4 +1,6 @@
 package server;
+import game.ScorePanel;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -59,6 +61,7 @@ public class Client implements Runnable{
 	
 	public void splash(Click o){
 		display("Click received from server " + o.toString());
+		ScorePanel.getInstance().updateScore(1, 1);
 	}
 	
 	public boolean sendClick(Click o){
