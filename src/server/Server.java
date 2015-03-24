@@ -1,98 +1,77 @@
 package server;
-import game.Window;
-
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Scanner;
 
 
-public class Server implements Runnable{
-	
-	private static Server instance;
+public class Server implements Runnable {
 
-	private ServerSocket serversocket = null;
-	private Socket socket = null;
+	private static int uniqueId;
 	private int port;
-	private boolean running;
-	private boolean acceptMore;
-	private Scanner scanner;
-	private BufferedReader br = null;
-	private DataOutputStream os = null;
-	private String line;
-	private ConnectionHandler connections;
+	private int uniqueid;
+	private boolean keepGoing;
+	
+	private ServerSocket serverSocket;
+	
+	private Socket socket = null;
+	
+	private ObjectInputStream in;
+	
+	private ArrayList <ClientConnection> clients;
+	private CurrentDate d = new CurrentDate();
 
-	private Server(int port) {
+	public Server(int port) {
 		this.port = port;
-
-	}
-
-	public void start(){
-		this.run();
 	}
 
 	@Override
 	public void run() {
-		
-		acceptMore = true;
-		
-		new Thread(connections = new ConnectionHandler()).start();
-		
-		try {
-			serversocket = new ServerSocket(port);
-			System.out.println("Server - Server waiting for Clients on port: " + port+ ".");
+		keepGoing = true;
+		clients = new ArrayList <ClientConnection>();
+		try{
+			
+			serverSocket = new ServerSocket(port);
+			
+			display("Waiting for Clients on port " + port + ".");
+			
+			display("-------------- Server initiated --------------");
+			
+			while(keepGoing){
 
-			while(acceptMore){
-				socket = serversocket.accept();
-				new Thread(new SocketThread(socket));
-			}
-			
-			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			
-			System.out.println("Server - Server is running ");
-			
-			running = true;
-			
-			while(running) {
+				clients.add(new ClientConnection(serverSocket.accept(), ++uniqueid));
 				
-				line = br.readLine();
-				System.out.println("Server - client clicked @ " + line);
-				
-				os.writeBytes(line + "\n");
-				System.out.println("Server - response sent to client");
-				
-
-				if(!running){
+				if(!keepGoing){
 					break;
 				}
 			}
+			
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-            try {
-                serversocket.close();
-            } catch (Exception e) {
-            	e.printStackTrace();
-            }
-        }
-
+		} catch (IOException e) {
+			display(e.toString());
+		}
+		
+	}
+	
+	public boolean broadcastClick(Click o){
+		try {
+			for(int i = 0; i < clients.size(); i++){
+				clients.get(i).sendClick(o);
+			}
+			return true;
+		} catch (Exception e){
+			return false;
+		}
 	}
 
-	public void stop(){
-		running = false;
-		System.out.println("Server - Stopping Server");
-
+	protected void stop() {
+		keepGoing = false;
 		try {
 			new Socket("localhost", port);
 		}
@@ -100,16 +79,9 @@ public class Server implements Runnable{
 
 		}
 	}
-	
-	public static Server getInstance(){
-		return instance;
-	}
-	
-	public static Server newInstance(int port){
-		if(instance == null){
-			instance = new Server(port);
-		}
-		return instance;
+
+	public void display(String s){
+		System.out.println(d.now() + " - Server - " + s);
 	}
 
 }

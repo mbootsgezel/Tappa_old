@@ -12,10 +12,6 @@ public class Window extends JFrame implements Runnable{
 		this.addMouseListener(new MouseController());
 		this.setVisible(true);
 	}
-	
-	public void start(){
-		this.run();
-	}
 
 	@Override
 	public void run() {

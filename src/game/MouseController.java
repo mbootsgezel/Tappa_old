@@ -3,9 +3,6 @@ package game;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import server.Client;
-import server.ThreadHandler;
-
 
 public class MouseController implements MouseListener{
 	
@@ -23,7 +20,7 @@ public class MouseController implements MouseListener{
 	@Override
 	public void mousePressed(MouseEvent e) {
 		System.out.println("Client - Mouse clicked @ X" + e.getX() + " & Y" + e.getY());
-		Client.getInstance().splash(e.getX(), e.getY());
+		//Client.getInstance().splash(e.getX(), e.getY());
 		//ScorePanel.getInstance().updateScore(1, 10);
 		//Client.getInstance().sendClick(e.getX(), e.getY());
 	}
