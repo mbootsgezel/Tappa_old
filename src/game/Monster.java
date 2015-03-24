@@ -39,8 +39,8 @@ public class Monster extends JPanel implements Runnable{
 		this.setSize(350, 350);
 		this.damaged = false;
 		try {
-			BufferedImage image = ImageIO.read(new File(getClass().getResource("/res/idle.png").toURI()));
-			BufferedImage image2 = ImageIO.read(new File(getClass().getResource("/res/hit.png").toURI()));
+			BufferedImage image = ImageIO.read(new File(getClass().getResource("/resources/idle.png").toURI()));
+			BufferedImage image2 = ImageIO.read(new File(getClass().getResource("/resources/hit.png").toURI()));
 			
 			BufferedImage newimage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
 			BufferedImage newimage2 = new BufferedImage(image2.getWidth(), image2.getHeight(), BufferedImage.TYPE_INT_ARGB);
