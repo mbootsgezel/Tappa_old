@@ -15,7 +15,7 @@ public class Click implements Serializable{
 	}
 	
 	public String toString(){
-		return "X = " + x + ", Y = " + y;
+		return "X=" + x + ", Y=" + y;
 	}
 
 }

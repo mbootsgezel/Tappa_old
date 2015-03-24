@@ -1,4 +1,6 @@
 package server;
+import game.ScorePanel;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -33,6 +35,7 @@ public class Client implements Runnable{
 	@Override
 	public void run() {
 		try {
+			display(System.getProperty("user.name"));
 			display("Connecting to: " + host);
 			
 			socket = new Socket(host, port);
@@ -42,13 +45,21 @@ public class Client implements Runnable{
 
 			running = true;
 			
-			sendClick(new Click(250, 500));
-			sendClick(new Click(223, 525));
+			setUser(System.getProperty("user.name"));
+			
+			//sendClick(new Click(250, 500));
+			//sendClick(new Click(223, 525));
 			
 			while(running){
-				display("Waiting for incoming clicks from server..");
-				Click o = (Click) in.readObject();
-				splash(o);
+				
+				Object o = in.readObject();
+				
+				try {
+					splash((Click)o);
+				} catch (Exception e) {
+					setScore((int)o);
+				}
+			
 			}
 
 
@@ -59,7 +70,19 @@ public class Client implements Runnable{
 	}
 	
 	public void splash(Click o){
-		display("Click received from server " + o.toString());
+		//display("Click received from server " + o.toString());
+		ScorePanel.getInstance().updateScore(1, 1);
+	}
+	
+	public void setUser(String name){
+		try {
+			out.writeObject(name);
+		} catch (Exception e) {
+		}
+	}
+	
+	public void setScore(int score){
+		ScorePanel.getInstance().setScore(score);
 	}
 	
 	public boolean sendClick(Click o){

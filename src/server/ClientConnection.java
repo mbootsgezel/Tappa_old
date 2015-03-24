@@ -10,6 +10,7 @@ public class ClientConnection extends Thread {
 	
 	private Socket socket;
 	private int id;
+	private String username;
 	private CurrentDate d = new CurrentDate();
 	
 	private boolean running;
@@ -17,27 +18,21 @@ public class ClientConnection extends Thread {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	
-	private ObjectOutputStream serverOut;
-	
 	public ClientConnection(Socket socket, int id) {
 		this.socket = socket;
 		this.id = id;
 		try {
-			display("Connected from: " + socket.getInetAddress().getHostName() + ", ID = " + id);
+			display("Connection from: " + socket.getInetAddress().getHostName() + ", ID = " + id);
 		} catch (Exception e) {
 			display("Connected from unknown host.");
 		}
 		
 		try {
-			display("Getting IO for connection: " + id);
 			out = new ObjectOutputStream(socket.getOutputStream());
 	        in = new ObjectInputStream(socket.getInputStream());
-	        //serverOut = new ObjectOutputStream();
-	        display("Succesfully got IO for connection: " + id);
 		} catch (IOException e) {
 			display("Failed to load IO: " + e);
 		}
-		display("----------- Connection established -----------");
 		this.start();
 	}
 
@@ -45,11 +40,24 @@ public class ClientConnection extends Thread {
 	public void run() {
 		running = true;
 		try {
+			
+			setScore();
+			
 			while(running){
-				Click o = (Click) in.readObject();
-				display(o.toString() + " by client: " + id);
-				ScorePanel.getInstance().updateScore(1, 1);
-				//sendClick(o);
+				
+				Object o = in.readObject();
+				
+				try {
+					username = (String) o;
+					char first = Character.toUpperCase(username.charAt(0));
+					username = first + username.substring(1);
+				} catch (Exception e){
+					display(o.toString() + " by user: " + username + ", clientid: " + id);
+					
+					Server.getInstance().broadcastClick((Click)o);
+				}
+				
+				
 			}
 		} catch (Exception e){
 			display(e.toString());
@@ -68,8 +76,20 @@ public class ClientConnection extends Thread {
 		}
 	}
 	
+	public void setScore(){
+		try {
+			out.writeObject(Server.getInstance().getScore());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public int getID(){
 		return id;
+	}
+	
+	public String getUsername(){
+		return username;
 	}
 	
 	public void display(String s){

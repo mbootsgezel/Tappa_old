@@ -12,6 +12,10 @@ import java.util.Date;
 
 
 public class Server implements Runnable {
+	
+	private static Server instance;
+	
+	private static int score;
 
 	private static int uniqueId;
 	private int port;
@@ -27,7 +31,7 @@ public class Server implements Runnable {
 	private ArrayList <ClientConnection> clients;
 	private CurrentDate d = new CurrentDate();
 
-	public Server(int port) {
+	private Server(int port) {
 		this.port = port;
 	}
 
@@ -59,11 +63,20 @@ public class Server implements Runnable {
 		
 	}
 	
+	public static int getScore(){
+		return score;
+	}
+	
+	public static void addScore(int newscore){
+		score = score + newscore;
+	}
+	
 	public boolean broadcastClick(Click o){
 		try {
 			for(int i = 0; i < clients.size(); i++){
 				clients.get(i).sendClick(o);
 			}
+			addScore(1);
 			return true;
 		} catch (Exception e){
 			return false;
@@ -82,6 +95,17 @@ public class Server implements Runnable {
 
 	public void display(String s){
 		System.out.println(d.now() + " - Server - " + s);
+	}
+	
+	public static Server newInstance(int port){
+		if(instance == null){
+			instance = new Server(port);
+		}
+		return instance;
+	}
+	
+	public static Server getInstance(){
+		return instance;
 	}
 
 }

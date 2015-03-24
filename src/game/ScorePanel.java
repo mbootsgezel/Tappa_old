@@ -15,6 +15,11 @@ public class ScorePanel extends JPanel{
 		this.add(scoreLabel);
 	}
 	
+	public void setScore(int score){
+		this.score = score;
+		scoreLabel.setText(Integer.toString(score));
+	}
+	
 	public void updateScore(int newScore, int scoreMultiplier){
 		score = score + (newScore*scoreMultiplier);
 		scoreLabel.setText(Integer.toString(score));

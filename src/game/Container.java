@@ -9,9 +9,11 @@ public class Container extends JPanel{
 	
 	private Container() {
 		this.setSize(400, 300);
-		this.add(ScorePanel.getInstance());		
+		this.add(ScorePanel.getInstance());	
+		this.add(Monster.getInstance());
 		this.setVisible(true);
 		ScorePanel.getInstance().setBounds(175, 25, 100, 50);
+		Monster.getInstance().setBounds(150, 100, 100, 100);
 	}
 	
 	public static Container getInstance(){
