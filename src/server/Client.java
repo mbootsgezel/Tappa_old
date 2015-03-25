@@ -1,14 +1,9 @@
 package server;
 import game.ScorePanel;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 public class Client implements Runnable{
@@ -35,6 +30,7 @@ public class Client implements Runnable{
 	@Override
 	public void run() {
 		try {
+			display("Local IP = " +  new LocalAddress().getLocalIP());
 			display("Connecting to: " + host);
 			socket = new Socket(host, port);
 			
@@ -43,16 +39,26 @@ public class Client implements Runnable{
 
 			running = true;
 			
-			setUser(System.getProperty("user.name"));
+			setUser(new Entity(Entity.NAME, System.getProperty("user.name")));
 			
 			while(running){
 				
-				Object o = in.readObject();
+				Entity o = (Entity) in.readObject();
 				
-				try {
-					splash((Click)o);
-				} catch (Exception e) {
-					setScore((int)o);
+				switch(o.getType()){
+				case Entity.SCORE:
+					setScore(o.getValue());
+					break;
+				case Entity.CLICK:
+					splash(o);
+					break;
+				case Entity.HEALTH:
+					display("Health updated.");
+					ScorePanel.getInstance().setHealth(o.getValue());
+					break;
+				case Entity.STAGE:
+					display("Nothing to do with stages yet.");
+					//ScorePanel.getInstance().s
 				}
 			
 			}
@@ -63,7 +69,7 @@ public class Client implements Runnable{
 		
 	}
 	
-	public void splash(Click o){
+	public void splash(Entity o){
 		//display("Click received from server " + o.toString());
 		ScorePanel.getInstance().updateScore(1, 1);
 		/*
@@ -73,10 +79,17 @@ public class Client implements Runnable{
 		 */
 	}
 	
-	public void setUser(String name){
+	public void setUser(Entity e){
 		try {
-			out.writeObject(name);
-		} catch (Exception e) {
+			out.writeObject(e);
+		} catch (Exception exc) {
+		}
+	}
+	
+	public void setHealth(Entity e){
+		try {
+			out.writeObject(e);
+		} catch (Exception exc) {
 		}
 	}
 	
@@ -84,11 +97,13 @@ public class Client implements Runnable{
 		ScorePanel.getInstance().setScore(score);
 	}
 	
-	public boolean sendClick(Click o){
+
+	
+	public boolean sendClick(Entity e){
 		try {
-			out.writeObject(o);
+			out.writeObject(e);
 			return true;
-		} catch (Exception e) {
+		} catch (Exception exc) {
 			return false;
 		}
 	}

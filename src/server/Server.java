@@ -16,6 +16,8 @@ public class Server implements Runnable {
 	private static Server instance;
 	
 	private static int score;
+	private static int health;
+	private static int stage;
 
 	private static int uniqueId;
 	private int port;
@@ -67,18 +69,35 @@ public class Server implements Runnable {
 		return score;
 	}
 	
+	public static int getHealth(){
+		return health;
+	}
+	
+	public static int getStage(){
+		return stage;
+	}
+	
 	public static void addScore(int newscore){
 		score = score + newscore;
 	}
 	
-	public boolean broadcastClick(Click o){
+	public static void setHealth(int newhealth){
+		health = newhealth;
+		System.out.println("health updated: " + getHealth());
+	}
+	
+	public static void setStage(int newstage){
+		stage = newstage;
+	}
+	
+	public boolean broadcastClick(Entity e){
 		try {
 			for(int i = 0; i < clients.size(); i++){
-				clients.get(i).sendClick(o);
+				clients.get(i).sendClick(e);
 			}
 			addScore(1);
 			return true;
-		} catch (Exception e){
+		} catch (Exception exc){
 			return false;
 		}
 	}

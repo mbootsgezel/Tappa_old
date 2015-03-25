@@ -19,10 +19,9 @@ public class HealthBar extends JPanel{
 		
 		health.setStringPainted(true);
 		health.setForeground(Color.GREEN);
-		health.setBackground(Color.GREEN);
 		health.setString(maxHealth + "/" + maxHealth);
 		health.setValue(maxHealth);
-		health.setPreferredSize(new Dimension(750, 25));
+		health.setPreferredSize(new Dimension(750, 50));
 		
 		this.setSize(Window.WIDTH, 50);
 		this.add(health);
@@ -32,6 +31,18 @@ public class HealthBar extends JPanel{
 		currentHealth = currentHealth - dmg;
 		health.setValue(currentHealth);
 		health.setString(currentHealth + "/" + maxHealth);
+	}
+	
+	public void setHealth(int newHealth){
+		if(newHealth != 0) {
+			health.setString(newHealth + "/" + maxHealth);
+			health.setValue(newHealth);
+			currentHealth = newHealth;
+		}
+	}
+	
+	public int getHealth(){
+		return currentHealth;
 	}
 
 }

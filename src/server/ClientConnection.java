@@ -42,19 +42,33 @@ public class ClientConnection extends Thread {
 		try {
 			
 			setScore();
+			setHealth();
+			setStage();
 			
 			while(running){
 				
-				Object o = in.readObject();
+				Entity o = (Entity) in.readObject();
 				
 				try {
-					username = (String) o;
-					char first = Character.toUpperCase(username.charAt(0));
-					username = first + username.substring(1);
+					switch(o.getType()){
+						case Entity.NAME:
+							username = o.getMessage();
+							char first = Character.toUpperCase(username.charAt(0));
+							username = first + username.substring(1);
+							break;
+						case Entity.HEALTH:
+							Server.getInstance().setHealth(o.getValue());
+							break;
+						case Entity.STAGE:
+							Server.getInstance().setStage(o.getValue());
+							break;
+						case Entity.CLICK:
+							display(o.getClick().toString() + " by user: " + username + ", clientid: " + id);
+							Server.getInstance().broadcastClick(o);
+							break;
+					}
 				} catch (Exception e){
-					display(o.toString() + " by user: " + username + ", clientid: " + id);
-					
-					Server.getInstance().broadcastClick((Click)o);
+					e.printStackTrace();
 				}
 				
 				
@@ -67,18 +81,34 @@ public class ClientConnection extends Thread {
 		
 	}
 	
-	public boolean sendClick(Click o){
+	public boolean sendClick(Entity e){
 		try {
-			out.writeObject(o);
+			out.writeObject(e);
 			return true;
-		} catch (Exception e) {
+		} catch (Exception exc) {
 			return false;
 		}
 	}
 	
 	public void setScore(){
 		try {
-			out.writeObject(Server.getInstance().getScore());
+			out.writeObject(new Entity(Entity.SCORE, Server.getInstance().getScore()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setStage(){
+		try {
+			out.writeObject(new Entity(Entity.STAGE, Server.getInstance().getStage()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setHealth(){
+		try {
+			out.writeObject(new Entity(Entity.HEALTH, Server.getInstance().getHealth()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

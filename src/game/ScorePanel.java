@@ -33,6 +33,14 @@ public class ScorePanel extends JPanel{
 		scoreLabel.setText(Integer.toString(score));
 	}
 	
+	public void setHealth(int newhealth){
+		health.setHealth(newhealth);
+	}
+	
+	public int getHealth(){
+		return health.getHealth();
+	}
+	
 	public void updateScore(int newScore, int scoreMultiplier){
 		score = score + (newScore*scoreMultiplier);
 		scoreLabel.setText(Integer.toString(score));
