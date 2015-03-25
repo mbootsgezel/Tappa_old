@@ -1,4 +1,5 @@
 package server;
+import game.Monster;
 import game.ScorePanel;
 
 import java.io.ObjectInputStream;
@@ -72,6 +73,7 @@ public class Client implements Runnable{
 	public void splash(Entity o){
 		//display("Click received from server " + o.toString());
 		ScorePanel.getInstance().updateScore(1, 1);
+		Monster.getInstance().hit();
 		/*
 		 * TODO
 		 * Draw splash on screen with random ±10x ±10y

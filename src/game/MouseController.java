@@ -25,7 +25,7 @@ public class MouseController implements MouseListener{
 	public void mousePressed(MouseEvent e) {
 		Client.getInstance().sendClick(new Entity(Entity.CLICK, new Click(e.getX(), e.getY())));
 		Client.getInstance().setHealth(new Entity(Entity.HEALTH, ScorePanel.getInstance().getHealth()));
-		Monster.getInstance().hit();
+		//Monster.getInstance().hit();
 		//display("Mouse clicked @ X" + e.getX() + " & Y" + e.getY());
 		//Client.getInstance().splash(e.getX(), e.getY());
 		//ScorePanel.getInstance().updateScore(1, 10);
