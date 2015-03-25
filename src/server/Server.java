@@ -82,8 +82,11 @@ public class Server implements Runnable {
 	}
 	
 	public static void setHealth(int newhealth){
-		health = newhealth;
-		System.out.println("health updated: " + getHealth());
+		if(newhealth <= 0){
+			health = 0;
+		} else {
+			health = newhealth;
+		}
 	}
 	
 	public static void setStage(int newstage){

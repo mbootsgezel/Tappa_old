@@ -17,6 +17,7 @@ public class Monster extends JPanel implements Runnable{
 
 	private ImageIcon idle;
 	private ImageIcon hit;
+	private ImageIcon dead;
 
 	private JLabel label;
 
@@ -24,15 +25,18 @@ public class Monster extends JPanel implements Runnable{
 	private long time = 0L;
 
 	private volatile boolean damaged;
+	private volatile boolean died;
 
 	private Monster() {
 		this.setLayout(new BorderLayout());
 		this.setLayout(null);
 		this.setSize(480, 480);
 		this.damaged = false;
+		this.died = false;
 		try {
 			idle = getResizedImage("/resources/idle.png");
 			hit = getResizedImage("/resources/hit.png");
+			dead = getResizedImage("/resources/dead.png");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -61,6 +65,8 @@ public class Monster extends JPanel implements Runnable{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			} else if (died){
+				label.setIcon(dead);
 			}
 
 
@@ -85,6 +91,10 @@ public class Monster extends JPanel implements Runnable{
 
 	public void hit(){
 		damaged = true;
+	}
+	
+	public void dead(){
+		died = true;
 	}
 
 	public static Monster getInstance(){
